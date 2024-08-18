@@ -51,7 +51,15 @@ def find_fundamental_frequency(fft_result, freqs):
         if harmonic_index >= 0 and fft_result[harmonic_index] > fft_result[peak_index] * 0.8:
             peak_freq = freqs[harmonic_index]
             break
+
     return peak_freq
+
+def correct_octave(note, freqs, peak_freq):
+    # Correct the octave if a higher harmonic was detected
+    lower_freq = peak_freq / 2
+    if lower_freq in freqs and librosa.hz_to_midi(lower_freq) == librosa.note_to_midi(note) - 12:
+        return librosa.midi_to_note(librosa.hz_to_midi(lower_freq))
+    return note
 
 try:
     while True:
@@ -78,6 +86,9 @@ try:
                 if LOW_FREQ < peak_freq < HIGH_FREQ:
                     # Convert frequency to note
                     note = librosa.hz_to_note(peak_freq)
+                    
+                    # Correct the octave if needed
+                    note = correct_octave(note, freqs, peak_freq)
 
                     # Get the current timestamp
                     current_time = time.time()

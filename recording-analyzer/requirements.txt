@@ -1,0 +1,4 @@
+flask
+pyaudio
+librosa
+requests

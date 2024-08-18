@@ -1,0 +1,52 @@
+services:
+  recording-analyzer:
+    build: ./recording-analyzer
+    volumes:
+      - ./shared-data:/shared-data  
+    ports:
+      - "5001:5001"
+    networks:
+      - ai-network
+
+  ai-service:
+    build: ./ai-service
+    volumes:
+      - ./shared-data:/shared-data  
+    ports:
+      - "6000:6000"
+    networks:
+      - ai-network
+  
+  ollama-service:
+    build: ./ollama-service-local
+    image: ollama
+    container_name: ollama
+    entrypoint: /tmp/run_ollama.sh
+    ports:
+      - 11434:11434
+    volumes:
+      - ./ollama/ollama:/root/.ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    networks:
+      - ai-network
+
+#  ollama-service:
+#    image: ollama/ollama:latest
+#    container_name: ollama
+#    ports:
+#      - "11434:11434"
+#    volumes:
+#      - ollama_storage:/root/.ollama
+
+volumes:
+  ollama_storage:
+  shared-data:
+
+networks:
+  ai-network:
+    driver: bridge
+
+
+
