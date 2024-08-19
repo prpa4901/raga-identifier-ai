@@ -6,7 +6,7 @@ import time
 import requests  # Make sure requests is imported for API calls
 
 # Initialize the Streamlit app
-st.title("AI Chat Interface with Raga Identifier")
+st.title("AI Chat Interface-Raga Identifier")
 
 # Chat Interface
 st.write("Chat with the AI about anything, including raga identification.")
@@ -27,7 +27,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
-AUDIO_FILE = "output.wav"
+AUDIO_FILE = "shared-data/output.wav"
 RECORD_SECONDS = 15  # Set recording duration to 10 seconds
 
 def start_recording():
